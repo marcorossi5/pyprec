@@ -58,6 +58,7 @@ def load_runcard(runcard_file: Path) -> dict:
     with the following syntax:
 
     .. code-block:: yaml
+
         path: !Path 'path/to/file'
     """
     if not isinstance(runcard_file, Path):

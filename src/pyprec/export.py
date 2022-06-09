@@ -15,6 +15,7 @@ def create_folder_tree(source_folder: Path):
     Directory tree is:
 
     .. code-block:: text
+
         root
         |-- source_folder # ``src/<pkgname>``
         |       |-- scripts
