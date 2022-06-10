@@ -27,10 +27,24 @@ Creating a new project from repo
 repository.
 
 The idea is that most of the packages share a similar structure, which requires
-to tweak just a few variables (e.g. `package name`, `author name`, etc.).
+to tweak just a few variables (e.g. `package name`, `author name` etc.).
 
 To start creating your python package repository structure, just run ``pyprec``
 command and answer the prompted questions.
+
+Python publish workflow
+-----------------------
+
+``pyprec`` creates a GitHub workflow to publish automatically the new package on
+`PyPi <https://pypi.org>`_ every time a new release is being created.
+
+In order to activate this automatic functionality, though, the user has to store
+username and passwords secrets of his PyPi account. This will ensure that the
+information will be kept encrypted all along the publishing procedure.
+
+Secrest must be stored in the package GitHub repository. For information, follow
+the instruction at this
+`link <https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository>`_.
 
 How to cite pyprec?
 ===================
