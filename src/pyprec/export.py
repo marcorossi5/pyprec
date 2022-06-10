@@ -83,7 +83,7 @@ def create_package_light(setup: dict):
 
     # CITATION.cff placeholder
     load_fill_and_export(
-        "CITATION.inc", setup, prefix_folder / f"CITATION.inc"
+        "CITATION.inc", setup, prefix_folder / f"CITATION.cff"
     )
 
     # sphinx docs
