@@ -81,6 +81,11 @@ def create_package_light(setup: dict):
         "pythonpublish.inc", setup, workflow_folder / f"pythonpublish.yaml"
     )
 
+    # CITATION.cff placeholder
+    load_fill_and_export(
+        "CITATION.inc", setup, prefix_folder / f"CITATION.inc"
+    )
+
 
     # sphinx docs
     if setup["should_run_sphinx"]:
