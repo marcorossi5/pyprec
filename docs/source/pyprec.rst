@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    pyprec.scripts
-   pyprec.templates
    pyprec.utils
 
 Submodules

@@ -1,5 +1,7 @@
 # PyPReC: Python Package Repository Creator
 
+[![DOI](https://zenodo.org/badge/501281838.svg)](https://zenodo.org/badge/latestdoi/501281838)
+
 This package automates the process of repository creation for Python packages.
 
 ## Installation

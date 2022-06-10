@@ -11,8 +11,8 @@ def get_template_path(template_name: str) -> Path:
     This implementation retrieves the query path independently of the directory
     where the Python interpreter has been run from.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     template_name: str
         The name of the template to be found in the source file.
 
