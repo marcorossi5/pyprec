@@ -9,7 +9,7 @@ from pyprec import PACKAGE
 logger = logging.getLogger(PACKAGE)
 
 
-def create_folder_tree(source_folder: Path):
+def create_folder_tree(prefix_folder: Path, source_folder: Path):
     """Creates the source directory tree.
 
     Directory tree is:
@@ -24,6 +24,8 @@ def create_folder_tree(source_folder: Path):
 
     Parameters
     ----------
+    prefix_folder: Path
+        The package root folder.
     source_folder: Path
         The folder to create the package source files to.
 
@@ -32,6 +34,7 @@ def create_folder_tree(source_folder: Path):
     FileExistsError
         If the source directory already exists.
     """
+    prefix_folder.joinpath(".github/workflows").mkdir(parents=True)
     source_folder.parent.mkdir(parents=True)
     source_folder.mkdir()
     source_folder.joinpath("scripts").mkdir()
@@ -48,7 +51,7 @@ def create_package_light(setup: dict):
     """
     prefix_folder = setup["prefix_folder"]
     source_folder = prefix_folder / f"src/{setup['pkgname']}"
-    create_folder_tree(source_folder)
+    create_folder_tree(prefix_folder, source_folder)
 
     # __init__ files
     source_folder.joinpath("scripts/__init__.py").touch()
@@ -68,6 +71,16 @@ def create_package_light(setup: dict):
     load_fill_and_export(
         "main_script.inc", setup, script_folder / f"{setup['pkgname']}.py"
     )
+
+    # workflows files
+    workflow_folder = prefix_folder / ".github/workflows"
+    load_fill_and_export(
+        "pytest.inc", setup, workflow_folder / f"pytest.yaml"
+    )
+    load_fill_and_export(
+        "pythonpublish.inc", setup, workflow_folder / f"pythonpublish.yaml"
+    )
+
 
     # sphinx docs
     if setup["should_run_sphinx"]:
@@ -90,6 +103,11 @@ def create_package_light(setup: dict):
         logger.debug("Quickstarting sphinx documentation ... \n")
         logger.debug(cmd_output.stdout.decode("utf-8"))
         logger.debug("Run command `make apidoc` in the docs directory to produce automatic function documentation.")
+        
+        # read the docs yaml
+        load_fill_and_export(
+            "readthedocs.inc", setup, prefix_folder / f".readthedocs.yml"
+        )
 
     msg = boldface(
         f"{setup['pkgname']} package successfully created at {prefix_folder}"
