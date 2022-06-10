@@ -86,7 +86,6 @@ def create_package_light(setup: dict):
         "CITATION.inc", setup, prefix_folder / f"CITATION.inc"
     )
 
-
     # sphinx docs
     if setup["should_run_sphinx"]:
         docs_folder = prefix_folder / "docs"
