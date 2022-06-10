@@ -1,0 +1,17 @@
+prefix_folder: !Path './foo'
+
+pkgname: pyfoo
+
+version: 1.0.0
+
+author: M. Rossi
+
+author_email: marco.rossi@cern.ch
+
+description: First try with pyprec package creator
+
+python_requires: 3.9
+
+dependencies: null
+
+make_sphinx_docs: y
