@@ -26,12 +26,14 @@ Package help message:
 
 ```bash
 $ bash --help
-usage: pyprec [-h] [-r RUNCARD]
+usage: pyprec [-h] [-r RUNCARD] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
 
 optional arguments:
   -h, --help            show this help message and exit
   -r RUNCARD, --runcard RUNCARD
                         The settings runcard file.
+  -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        set logging level
 ```
 
 If a runcard is specified, settings are loaded from it. Please, find a default

@@ -14,6 +14,4 @@ python_requires: 3.9
 
 dependencies: null
 
-use_sphinx: y
-
-use_tf: n
+make_sphinx_docs: y

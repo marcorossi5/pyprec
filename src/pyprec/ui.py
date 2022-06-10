@@ -40,11 +40,15 @@ def ask_question_list(
         if not Path(prefix_folder).joinpath("src").is_dir():
             setup[k_folder] = prefix_folder
             break
-        logger.info("The prefix folder already contains a src directory, please set another path...")
-    setup.update({
-        key: ask_question(logger, question, default, timeout=timeout)
-        for key, question, default in questions[1:]
-    })
+        logger.info(
+            "The prefix folder already contains a src directory, please set another path..."
+        )
+    setup.update(
+        {
+            key: ask_question(logger, question, default, timeout=timeout)
+            for key, question, default in questions[1:]
+        }
+    )
     return setup
 
 
@@ -70,13 +74,8 @@ def get_question_list() -> list[Tuple[str, str, Any]]:
             "no-deps",
         ),
         (
-            "use_sphinx",
-            "> Do you want to include sphinx as a dependency to build documentation? [y/n] ",
-            None,
-        ),
-        (
-            "use_tf",
-            "> Do you want to include tensorflow as a dependency? [y/n] ",
+            "make_sphinx_docs",
+            "> Do you want to run sphinx to make package documentation? [y/n] ",
             None,
         ),
     ]
@@ -94,14 +93,17 @@ def refine_setup_dict(setup):
     setup["prefix_folder"] = Path(setup["prefix_folder"])
     deps = setup["dependencies"]
     if deps and deps != "no-deps":
-        setup["dependencies"] = list(
-            filter(lambda x: "tensorflow" not in x, deps.split(","))
-        )
+        deps_list = [dep.strip() for dep in deps.split(",") if "tensorflow" not in dep]
+        setup["dependencies"] = "".join(["\n    ", "\n    ".join(deps_list)])
+        # check if tensorflow is in dependencies
+        tfs = ["tensorflow", "tensorflow-cpu", "tensorflow-gpu", "tensorflow-rocm"]
+        setup["use_tf"] = "" if any(tf in deps for tf in tfs) else "# "
     else:
         setup["dependencies"] = ""
+        setup["use_tf"] = "# "
 
-    setup["use_sphinx"] = "" if setup["use_sphinx"].lower() == "y" else "# "
-    setup["use_tf"] = "" if setup["use_tf"].lower() == "y" else "# "
+    setup["should_run_sphinx"] = setup["make_sphinx_docs"].lower() == "y"
+    setup["use_sphinx"] = "" if setup["should_run_sphinx"] else "# "
 
 
 def ui() -> dict:

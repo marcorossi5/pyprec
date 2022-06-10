@@ -1,9 +1,9 @@
 """This module"""
 import logging
 from pathlib import Path
-
+import subprocess as sp
 from .pyexporter import load_fill_and_export
-from .utils.utils import boldface
+from .utils.utils import boldface, get_template_path
 from pyprec import PACKAGE
 
 logger = logging.getLogger(PACKAGE)
@@ -68,6 +68,28 @@ def create_package_light(setup: dict):
     load_fill_and_export(
         "main_script.inc", setup, script_folder / f"{setup['pkgname']}.py"
     )
+
+    # sphinx docs
+    if setup["should_run_sphinx"]:
+        docs_folder = prefix_folder / "docs"
+        docs_folder.mkdir()
+        project_name = setup["pkgname"]
+        author = setup["author"]
+        version = setup["version"]
+        template_folder = get_template_path("sphinx")
+        cmd = (
+            f"sphinx-quickstart --sep -p {project_name} -a '{author}' -r {version} "
+            "-l en --makefile --ext-autodoc --ext-viewcode "
+            f"--extensions sphinxcontrib.napoleon -t {template_folder} {docs_folder}"
+        )
+        try:
+            cmd_output = sp.run(cmd, shell=True, capture_output=True, check=True)
+        except sp.CalledProcessError as err:
+            logger.error("".join(["\n[ERROR](pyprec) ", err.stderr.decode("utf-8")]))
+            raise
+        logger.debug("Quickstarting sphinx documentation ... \n")
+        logger.debug(cmd_output.stdout.decode("utf-8"))
+        logger.debug("Run command `make apidoc` in the docs directory to produce automatic function documentation.")
 
     msg = boldface(
         f"{setup['pkgname']} package successfully created at {prefix_folder}"
