@@ -4,6 +4,11 @@
 
 This package automates the process of repository creation for Python packages.
 
+## Documentation
+
+The documentation for pyprec can be consulted in the readthedocs page:
+[pyprec.readthedocs.io](https://pyprec.readthedocs.io).
+
 ## Installation
 
 The package can be installed with Python's pip package manager.
